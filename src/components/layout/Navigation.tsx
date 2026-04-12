@@ -7,11 +7,15 @@ import {
   Brain,
   BookOpen,
   Bell,
+  Activity,
+  Users,
 } from 'lucide-react'
 
 const links = [
   { to: '/', key: 'nav.dashboard', icon: LayoutDashboard },
   { to: '/reports', key: 'nav.reports', icon: FileText },
+  { to: '/protocols', key: 'nav.protocols', icon: Users },
+  { to: '/ot', key: 'nav.ot', icon: Activity },
   { to: '/jwan', key: 'nav.jwan', icon: Sparkles },
   { to: '/brain', key: 'nav.brain', icon: Brain },
   { to: '/guide', key: 'nav.guide', icon: BookOpen },

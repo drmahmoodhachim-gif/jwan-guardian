@@ -16,6 +16,8 @@ export async function anthropicComplete(params: {
       'content-type': 'application/json',
       'x-api-key': key,
       'anthropic-version': '2023-06-01',
+      // Required for client-side calls; without it the API returns 503 / Failed to fetch.
+      'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',

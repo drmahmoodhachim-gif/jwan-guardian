@@ -5,7 +5,7 @@ export const DOMAINS = [
   { id: 'emotion', en: 'Emotion', ar: 'المشاعر', status: 'focus', color: 'coral' },
   { id: 'attention', en: 'Attention', ar: 'الانتباه', status: 'monitor', color: 'amber' },
   { id: 'language', en: 'Language', ar: 'اللغة', status: 'strength', color: 'teal' },
-  { id: 'motor', en: 'Motor', ar: 'الحركة', status: 'monitor', color: 'amber' },
+  { id: 'motor', en: 'Motor skills', ar: 'المهارات الحركية', status: 'monitor', color: 'amber' },
   { id: 'sensory', en: 'Sensory', ar: 'الحواس', status: 'monitor', color: 'amber' },
   { id: 'adaptive', en: 'Adaptive', ar: 'التكيف', status: 'monitor', color: 'amber' },
   { id: 'general', en: 'General', ar: 'عام', status: 'neutral', color: 'gray' },
@@ -21,6 +21,53 @@ export { PROVIDER_TIMELINE } from '../data/providerTimeline'
 export { DOCUMENT_INVENTORY } from '../data/documentInventory'
 export { DIAGNOSIS_EVOLUTION } from '../data/diagnosisEvolution'
 export { CARE_TEAM_APRIL_2025 } from '../data/careTeamSnapshot'
+export {
+  OT_INITIAL_2023,
+  OT_KEY_CLINICAL_FACT,
+  NEUROPEDIA_DOB_NOTE,
+} from '../data/otAssessments'
+
+/** Neuropedia OT + referring neurologist — May 2023 onward */
+export const SUPPORT_TEAM_FULL = {
+  neurologistReferring: {
+    name: 'Dr. Aman Sohal',
+    role: 'Paediatric Neurologist',
+    institution: 'Neuropedia, Dubai',
+    relationship: 'Referred Jwan for OT assessment (May 2023)',
+  },
+  ot: {
+    initial: {
+      name: 'Dr. Esther Zachariah',
+      credentials: 'BOT, OTD, SI-Cert',
+      dhaNumber: '00197916-001',
+      role: 'Clinical Team Lead, Paediatric Occupational Therapist',
+      email: 'esther.zachariah@neuropedia.ae',
+      instagram: '@otequalsplay / therapywithesther',
+    },
+    ongoing: {
+      name: 'Stephane Hornsby-Stoltz',
+      dha: '8296774-001',
+      email: 'stephane.hornsbystoltz@neuropedia.ae',
+      role: 'Paediatric Occupational Therapist',
+      startDate: 'October 2024',
+    },
+    npNumber: '#6829',
+    startDateWeekly: '2023-05-11',
+    frequency: 'Weekly',
+    approach: 'Sensory Integration® + Motor-Relearning principles',
+  },
+  neuropedia: {
+    institution: "Neuropedia Children's Neuroscience Center (NCNC), Dubai",
+    address: '24, Opp. Dubai Zoo, Beach Road, Jumeirah 1, Dubai',
+  },
+  neuropediaBehaviour: {
+    provider: 'Neuropedia',
+    type: 'Behavioural consultations (in-clinic + home-based)',
+    startDate: 'Late 2024 (approximate)',
+    status: 'Active' as const,
+    note: 'Same institution as OT — Neuropedia provides both OT and behaviour support',
+  },
+} as const
 
 /** Documented Nov 2024 — Autism Clinic London (CFT consultation). */
 export const JWAN_ARTISTIC_TALENT = {

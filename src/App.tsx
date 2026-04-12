@@ -11,6 +11,8 @@ import { JwanPage } from './pages/JwanPage'
 import { BrainPage } from './pages/BrainPage'
 import { GuidePage } from './pages/GuidePage'
 import { RemindersPage } from './pages/RemindersPage'
+import { OTReports } from './pages/OTReports'
+import { CareTeamProtocols } from './pages/CareTeamProtocols'
 
 function RequireSession({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -65,6 +67,8 @@ export default function App() {
         <Route path="brain" element={<BrainPage />} />
         <Route path="guide" element={<GuidePage />} />
         <Route path="reminders" element={<RemindersPage />} />
+        <Route path="ot" element={<OTReports />} />
+        <Route path="protocols" element={<CareTeamProtocols />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

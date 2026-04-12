@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
-type Tab = 'overview' | 'social' | 'feelings' | 'attention' | 'gift'
+type Tab = 'overview' | 'social' | 'feelings' | 'attention' | 'motor' | 'gift'
 
 function BrainSvgOverview({ ar }: { ar: boolean }) {
   return (
@@ -94,16 +94,34 @@ function BrainSvgAttention() {
   )
 }
 
+const TAB_IDS: Tab[] = ['overview', 'social', 'feelings', 'attention', 'motor', 'gift']
+
 export function BrainPage() {
   const { t, i18n } = useTranslation()
   const ar = i18n.language.startsWith('ar')
-  const [tab, setTab] = useState<Tab>('overview')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  const tab: Tab =
+    tabParam && TAB_IDS.includes(tabParam as Tab) ? (tabParam as Tab) : 'overview'
+
+  function selectTab(next: Tab) {
+    setSearchParams(
+      (prev) => {
+        const p = new URLSearchParams(prev)
+        if (next === 'overview') p.delete('tab')
+        else p.set('tab', next)
+        return p
+      },
+      { replace: true },
+    )
+  }
 
   const tabs: { id: Tab; labelKey: string }[] = [
     { id: 'overview', labelKey: 'brain.overview' },
     { id: 'social', labelKey: 'brain.social' },
     { id: 'feelings', labelKey: 'brain.feelings' },
     { id: 'attention', labelKey: 'brain.attention' },
+    { id: 'motor', labelKey: 'brain.tab.motor' },
     { id: 'gift', labelKey: 'brain.gift' },
   ]
 
@@ -121,7 +139,7 @@ export function BrainPage() {
             type="button"
             role="tab"
             aria-selected={tab === id}
-            onClick={() => setTab(id)}
+            onClick={() => selectTab(id)}
             className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
               tab === id
                 ? 'bg-jwan-teal text-white shadow'
@@ -202,6 +220,19 @@ export function BrainPage() {
                 <h3 className="font-semibold text-violet-700">{t('brain.forJwan')}</h3>
                 <p className="mt-1 text-jwan-ink">{t('brain.attn.jwan')}</p>
               </div>
+            </div>
+          </div>
+        ) : null}
+
+        {tab === 'motor' ? (
+          <div className="max-w-3xl text-sm leading-relaxed">
+            <div>
+              <h3 className="font-semibold text-jwan-teal">{t('brain.forCaregivers')}</h3>
+              <p className="mt-2 text-jwan-ink">{t('brain.motor.care')}</p>
+            </div>
+            <div className="mt-6">
+              <h3 className="font-semibold text-violet-700">{t('brain.forJwan')}</h3>
+              <p className="mt-2 text-jwan-ink">{t('brain.motor.jwan')}</p>
             </div>
           </div>
         ) : null}

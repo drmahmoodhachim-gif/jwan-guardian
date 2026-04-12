@@ -6,8 +6,9 @@ import { AIChat } from '../components/jwan/AIChat'
 import { Superpowers } from '../components/jwan/Superpowers'
 import { Achievements } from '../components/jwan/Achievements'
 import { BreathingTool } from '../components/jwan/BreathingTool'
+import { ZonesTracker } from '../components/jwan/ZonesTracker'
 
-type Tab = 'mood' | 'chat' | 'powers' | 'wins' | 'breathe'
+type Tab = 'mood' | 'chat' | 'powers' | 'wins' | 'breathe' | 'zones'
 
 export function JwanPage() {
   const { t } = useTranslation()
@@ -20,6 +21,7 @@ export function JwanPage() {
     { id: 'powers', label: t('jwan.tab.powers') },
     { id: 'wins', label: t('jwan.tab.wins') },
     { id: 'breathe', label: t('jwan.tab.breathe') },
+    { id: 'zones', label: t('jwan.tab.zones') },
   ]
 
   return (
@@ -61,6 +63,7 @@ export function JwanPage() {
         {tab === 'powers' ? <Superpowers /> : null}
         {tab === 'wins' ? <Achievements /> : null}
         {tab === 'breathe' ? <BreathingTool /> : null}
+        {tab === 'zones' ? <ZonesTracker /> : null}
       </div>
     </div>
   )

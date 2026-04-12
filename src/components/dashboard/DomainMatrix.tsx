@@ -15,7 +15,7 @@ export function DomainMatrix({
 }: {
   averages: Record<string, number | null>
 }) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const ar = i18n.language.startsWith('ar')
 
   return (
@@ -26,19 +26,31 @@ export function DomainMatrix({
         const st = scoreStyle(avg)
         const title = ar ? d.ar : d.en
         return (
-          <Link
+          <div
             key={d.id}
-            to={`/reports?domain=${d.id}`}
-            className={`flex flex-col rounded-xl border border-slate-200/80 p-3 text-start shadow-sm transition hover:ring-2 hover:ring-jwan-teal/30 md:p-4 ${st.label}`}
+            className={`flex flex-col overflow-hidden rounded-xl border border-slate-200/80 shadow-sm transition hover:ring-2 hover:ring-jwan-teal/30 ${st.label}`}
           >
-            <span className="text-sm font-medium leading-tight">{title}</span>
-            <span className="mt-2 text-2xl font-semibold tabular-nums">{display}</span>
-            <ProgressBar
-              value={avg ?? 0}
-              className="mt-3"
-              barClassName={avg == null ? 'bg-slate-300' : st.bar}
-            />
-          </Link>
+            <Link
+              to={`/reports?domain=${d.id}`}
+              className="flex flex-col p-3 text-start md:p-4"
+            >
+              <span className="text-sm font-medium leading-tight">{title}</span>
+              <span className="mt-2 text-2xl font-semibold tabular-nums">{display}</span>
+              <ProgressBar
+                value={avg ?? 0}
+                className="mt-3"
+                barClassName={avg == null ? 'bg-slate-300' : st.bar}
+              />
+            </Link>
+            {d.id === 'motor' ? (
+              <Link
+                to="/ot"
+                className="border-t border-slate-200/80 bg-white/60 px-3 py-2 text-center text-xs font-semibold text-jwan-teal hover:bg-teal-50 md:px-4"
+              >
+                {t('matrix.otLink')}
+              </Link>
+            ) : null}
+          </div>
         )
       })}
     </div>
