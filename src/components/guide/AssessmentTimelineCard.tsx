@@ -1,6 +1,69 @@
 import { useTranslation } from 'react-i18next'
+import type { ClinicalAssessment } from '../../data/assessments'
 import { CLINICAL_ASSESSMENTS } from '../../data/assessments'
 import { Card } from '../ui/Card'
+
+function ExtraDetail({ a }: { a: ClinicalAssessment }) {
+  const { t } = useTranslation()
+  return (
+    <>
+      {a.sourceFile ? (
+        <p className="mt-2 text-xs text-jwan-gray">
+          <span className="font-medium text-jwan-ink">{t('guide.sourceFile')}: </span>
+          {a.sourceFile}
+        </p>
+      ) : null}
+      {a.clinicalQuotes?.length ? (
+        <div className="mt-3 border-l-2 border-violet-200 pl-3">
+          <p className="text-xs font-medium text-jwan-ink">{t('guide.clinicianQuotes')}</p>
+          {a.clinicalQuotes.map((q, i) => (
+            <p key={i} className="mt-1 text-xs italic leading-relaxed text-jwan-gray">
+              {q}
+            </p>
+          ))}
+        </div>
+      ) : null}
+      {a.cftComponents?.length ? (
+        <div className="mt-3">
+          <p className="text-xs font-medium text-jwan-ink">{t('guide.cftComponents')}</p>
+          <ol className="mt-1 list-decimal space-y-1 pl-5 text-xs text-jwan-ink">
+            {a.cftComponents.map((line, i) => (
+              <li key={i}>{line}</li>
+            ))}
+          </ol>
+        </div>
+      ) : null}
+      {a.recommendedResources?.books?.length || a.recommendedResources?.films?.length ? (
+        <div className="mt-3 text-xs">
+          <p className="font-medium text-jwan-ink">{t('guide.recommendedMedia')}</p>
+          {a.recommendedResources?.books?.length ? (
+            <ul className="mt-1 list-disc pl-5 text-jwan-gray">
+              {a.recommendedResources.books.map((b, i) => (
+                <li key={i}>{b}</li>
+              ))}
+            </ul>
+          ) : null}
+          {a.recommendedResources?.films?.length ? (
+            <p className="mt-1 text-jwan-gray">
+              <span className="font-medium text-jwan-ink">{t('guide.films')}: </span>
+              {a.recommendedResources.films.join('; ')}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+      {a.recommendations?.length ? (
+        <div className="mt-3">
+          <p className="text-xs font-medium text-jwan-ink">{t('guide.recommendationsList')}</p>
+          <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-jwan-ink">
+            {a.recommendations.map((line, i) => (
+              <li key={i}>{line}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </>
+  )
+}
 
 export function AssessmentTimelineCard() {
   const { t, i18n } = useTranslation()
@@ -21,6 +84,9 @@ export function AssessmentTimelineCard() {
                 {a.reportDate} · {ar ? a.ageAtAssessment : a.ageCompact}
               </span>
             </div>
+            {a.address ? (
+              <p className="mt-1 text-xs text-jwan-gray">{a.address}</p>
+            ) : null}
             <p className="mt-1 text-jwan-ink">{a.diagnosis}</p>
             {a.noteOnSchoolYear ? (
               <p className="mt-2 rounded-lg bg-amber-50 px-2 py-1 text-xs text-amber-950">
@@ -51,6 +117,7 @@ export function AssessmentTimelineCard() {
                   </ul>
                 </div>
               ) : null}
+              <ExtraDetail a={a} />
             </details>
           </li>
         ))}

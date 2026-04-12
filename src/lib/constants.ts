@@ -18,6 +18,9 @@ export {
 } from '../data/assessments'
 export { CLINICAL_ALERTS } from '../data/clinicalAlerts'
 export { PROVIDER_TIMELINE } from '../data/providerTimeline'
+export { DOCUMENT_INVENTORY } from '../data/documentInventory'
+export { DIAGNOSIS_EVOLUTION } from '../data/diagnosisEvolution'
+export { CARE_TEAM_APRIL_2025 } from '../data/careTeamSnapshot'
 
 /** Documented Nov 2024 — Autism Clinic London (CFT consultation). */
 export const JWAN_ARTISTIC_TALENT = {
@@ -49,6 +52,8 @@ export const CFT_APPROACH = {
   startDate: '2024-11-26',
   framework: 'Compassion-Focused Therapy (CFT)',
   frameworkAr: 'العلاج القائم على التعاطف',
+  /** Citation used in family clinical notes for CFT context in ASD */
+  evidenceBase: 'Mazefsky (2015) — Emotion Regulation and Emotional Distress in ASD',
   evidenceNote: 'Mazefsky (2015) — emotion regulation and distress in ASD (context for families)',
   keyTools: [
     'Emotion cards',

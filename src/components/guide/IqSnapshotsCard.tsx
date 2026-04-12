@@ -32,6 +32,7 @@ export function IqSnapshotsCard() {
           </tbody>
         </table>
       </div>
+      <p className="mt-4 text-sm font-medium text-jwan-teal">{t('guide.iqConclusion')}</p>
     </Card>
   )
 }

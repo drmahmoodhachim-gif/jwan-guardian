@@ -74,4 +74,16 @@ export const PROVIDER_TIMELINE: ProviderTimelineEntry[] = [
     detail: 'Mediclinic — Dr Faniran — Level 2 ASD; medication discussion for mood regulation.',
     detailAr: 'ميديكلينيك — د. فانيران — مستوى 2؛ مناقشة دواء.',
   },
+  {
+    period: 'Age 8y7m — snapshot',
+    periodAr: '8 سنوات و7 أشهر — لقطة',
+    detail: 'BCBA active; FBA completed; school behaviour plan in place.',
+    detailAr: 'BCBA نشط؛ تقييم وظيفي السلوك؛ خطة في المدرسة.',
+  },
+  {
+    period: 'Due May 2025',
+    periodAr: 'موعد مايو 2025',
+    detail: 'Dr Faniran follow-up (3 months from Mediclinic report).',
+    detailAr: 'متابعة د. فانيران (3 أشهر من تقرير ميديكلينيك).',
+  },
 ]

@@ -4,6 +4,9 @@ import { ClinicalAlertsCard } from '../components/guide/ClinicalAlertsCard'
 import { AssessmentTimelineCard } from '../components/guide/AssessmentTimelineCard'
 import { ProviderTimelineCard } from '../components/guide/ProviderTimelineCard'
 import { IqSnapshotsCard } from '../components/guide/IqSnapshotsCard'
+import { DocumentInventoryCard } from '../components/guide/DocumentInventoryCard'
+import { DiagnosisEvolutionCard } from '../components/guide/DiagnosisEvolutionCard'
+import { CareTeamSnapshotCard } from '../components/guide/CareTeamSnapshotCard'
 
 export function GuidePage() {
   const { t } = useTranslation()
@@ -16,9 +19,12 @@ export function GuidePage() {
       </div>
 
       <ClinicalAlertsCard />
+      <DocumentInventoryCard />
       <ProviderTimelineCard />
+      <DiagnosisEvolutionCard />
       <AssessmentTimelineCard />
       <IqSnapshotsCard />
+      <CareTeamSnapshotCard />
 
       <Card title={t('guide.goldenTitle')}>
         <ul className="list-disc space-y-3 pl-5 text-sm leading-relaxed text-jwan-ink">
