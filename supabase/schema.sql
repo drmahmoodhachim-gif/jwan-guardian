@@ -27,6 +27,9 @@ create table reports (
   jwan_response text,
   mood text,
   strategies_used text,
+  setting_key text,
+  mood_key text,
+  strategy_keys text[] default '{}',
   observed_at timestamptz not null default now(),
   created_at timestamptz default now(),
   updated_at timestamptz default now()

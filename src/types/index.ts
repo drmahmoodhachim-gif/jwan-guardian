@@ -32,6 +32,12 @@ export interface Report {
   jwan_response: string | null
   mood: string | null
   strategies_used: string | null
+  /** Structured: where the observation occurred (clinical / educational setting). */
+  setting_key?: string | null
+  /** Structured: observed affect / regulation category. */
+  mood_key?: string | null
+  /** Structured: strategies used (evidence-based tags). */
+  strategy_keys?: string[] | null
   /** When the observation happened (user can set in form; defaults to now). */
   observed_at?: string | null
   created_at: string
@@ -48,6 +54,9 @@ export type ReportInsert = {
   jwan_response: string | null
   mood: string | null
   strategies_used: string | null
+  setting_key: string | null
+  mood_key: string | null
+  strategy_keys: string[]
   observed_at: string
 }
 
@@ -62,6 +71,9 @@ export type ReportUpdate = Partial<
     | 'jwan_response'
     | 'mood'
     | 'strategies_used'
+    | 'setting_key'
+    | 'mood_key'
+    | 'strategy_keys'
     | 'observed_at'
   >
 >

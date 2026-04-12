@@ -85,6 +85,29 @@ export function ReportCard({
         <p className="mt-2 text-xs text-jwan-gray">{t('report.noRating')}</p>
       )}
 
+      {report.setting_key || report.mood_key || (report.strategy_keys?.length ?? 0) > 0 ? (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {report.setting_key ? (
+            <span className="rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-900">
+              {t(`report.opt.set.${report.setting_key}`, { defaultValue: report.setting_key })}
+            </span>
+          ) : null}
+          {report.mood_key ? (
+            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-900">
+              {t(`report.opt.mood.${report.mood_key}`, { defaultValue: report.mood_key })}
+            </span>
+          ) : null}
+          {(report.strategy_keys ?? []).map((k) => (
+            <span
+              key={k}
+              className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-jwan-ink"
+            >
+              {t(`report.opt.strat.${k}`, { defaultValue: k })}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
       <p className="mt-3 text-sm text-jwan-ink">{report.what_happened}</p>
 
       <button
@@ -99,7 +122,7 @@ export function ReportCard({
         <dl className="mt-3 space-y-2 border-t border-slate-100 pt-3 text-sm">
           {report.context ? (
             <>
-              <dt className="font-medium text-jwan-gray">{t('report.context')}</dt>
+              <dt className="font-medium text-jwan-gray">{t('report.contextDetail')}</dt>
               <dd className="text-jwan-ink">{report.context}</dd>
             </>
           ) : null}
@@ -111,13 +134,13 @@ export function ReportCard({
           ) : null}
           {report.mood ? (
             <>
-              <dt className="font-medium text-jwan-gray">{t('report.mood')}</dt>
+              <dt className="font-medium text-jwan-gray">{t('report.moodNotes')}</dt>
               <dd className="text-jwan-ink">{report.mood}</dd>
             </>
           ) : null}
           {report.strategies_used ? (
             <>
-              <dt className="font-medium text-jwan-gray">{t('report.strategies')}</dt>
+              <dt className="font-medium text-jwan-gray">{t('report.strategiesNotes')}</dt>
               <dd className="text-jwan-ink">{report.strategies_used}</dd>
             </>
           ) : null}

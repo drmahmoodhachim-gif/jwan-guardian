@@ -10,6 +10,7 @@ import {
 } from '../../lib/observationTime'
 import type { Report, ReportDomain, Role } from '../../types'
 import { StarRating } from '../ui/StarRating'
+import { StructuredReportOptions } from './StructuredReportOptions'
 
 const ROLES: Role[] = ['dad', 'mom', 'teacher', 'therapist', 'doctor', 'jwan', 'admin']
 
@@ -34,11 +35,14 @@ export function ReportForm({
   const [role, setRole] = useState<string>(report?.role ?? profile?.role ?? 'dad')
   const [domain, setDomain] = useState<ReportDomain>(report?.domain ?? 'general')
   const [rating, setRating] = useState<number | null>(report?.rating ?? null)
+  const [settingKey, setSettingKey] = useState(report?.setting_key ?? '')
+  const [moodKey, setMoodKey] = useState(report?.mood_key ?? '')
+  const [strategyKeys, setStrategyKeys] = useState<string[]>(report?.strategy_keys ?? [])
   const [context, setContext] = useState(report?.context ?? '')
   const [whatHappened, setWhatHappened] = useState(report?.what_happened ?? '')
   const [jwanResponse, setJwanResponse] = useState(report?.jwan_response ?? '')
-  const [mood, setMood] = useState(report?.mood ?? '')
-  const [strategies, setStrategies] = useState(report?.strategies_used ?? '')
+  const [moodNotes, setMoodNotes] = useState(report?.mood ?? '')
+  const [strategyNotes, setStrategyNotes] = useState(report?.strategies_used ?? '')
   const [observedAtLocal, setObservedAtLocal] = useState(() =>
     report ? isoToDatetimeLocal(report.observed_at ?? report.created_at) : formatForDatetimeLocal(new Date()),
   )
@@ -55,21 +59,31 @@ export function ReportForm({
       setError(t('report.mustLogin'))
       return
     }
+    if (!settingKey.trim() || !moodKey.trim()) {
+      setError(t('report.optionsRequired'))
+      return
+    }
     const observedIso = parseDatetimeLocalToIso(observedAtLocal)
     setError(null)
     setPending(true)
+
+    const payloadCommon = {
+      role,
+      domain,
+      rating,
+      setting_key: settingKey.trim(),
+      mood_key: moodKey.trim(),
+      strategy_keys: strategyKeys,
+      context: context.trim() || null,
+      what_happened: whatHappened.trim(),
+      jwan_response: jwanResponse.trim() || null,
+      mood: moodNotes.trim() || null,
+      strategies_used: strategyNotes.trim() || null,
+      observed_at: observedIso,
+    }
+
     if (isEdit && report) {
-      const { error: err } = await updateReport(report.id, {
-        role,
-        domain,
-        rating,
-        context: context.trim() || null,
-        what_happened: whatHappened.trim(),
-        jwan_response: jwanResponse.trim() || null,
-        mood: mood.trim() || null,
-        strategies_used: strategies.trim() || null,
-        observed_at: observedIso,
-      })
+      const { error: err } = await updateReport(report.id, payloadCommon)
       setPending(false)
       if (err) {
         setError(err)
@@ -81,15 +95,7 @@ export function ReportForm({
 
     const { error: err } = await addReport({
       author_id: user.id,
-      role,
-      domain,
-      rating,
-      context: context.trim() || null,
-      what_happened: whatHappened.trim(),
-      jwan_response: jwanResponse.trim() || null,
-      mood: mood.trim() || null,
-      strategies_used: strategies.trim() || null,
-      observed_at: observedIso,
+      ...payloadCommon,
     })
     setPending(false)
     if (err) {
@@ -97,11 +103,14 @@ export function ReportForm({
       return
     }
     setRating(null)
+    setSettingKey('')
+    setMoodKey('')
+    setStrategyKeys([])
     setContext('')
     setWhatHappened('')
     setJwanResponse('')
-    setMood('')
-    setStrategies('')
+    setMoodNotes('')
+    setStrategyNotes('')
     setObservedAtLocal(formatForDatetimeLocal(new Date()))
     onSaved?.()
   }
@@ -166,16 +175,20 @@ export function ReportForm({
 
       <StarRating value={rating} onChange={setRating} label={t('report.rating')} />
 
-      <label className="flex flex-col gap-1 text-sm font-medium text-jwan-ink">
-        {t('report.context')}
-        <textarea
-          value={context}
-          onChange={(e) => setContext(e.target.value)}
-          rows={2}
-          className="rounded-lg border border-slate-200 px-3 py-2"
-          placeholder={t('report.contextHint')}
-        />
-      </label>
+      <StructuredReportOptions
+        settingKey={settingKey}
+        setSettingKey={setSettingKey}
+        moodKey={moodKey}
+        setMoodKey={setMoodKey}
+        strategyKeys={strategyKeys}
+        setStrategyKeys={setStrategyKeys}
+        contextDetail={context}
+        setContextDetail={setContext}
+        moodNotes={moodNotes}
+        setMoodNotes={setMoodNotes}
+        strategyNotes={strategyNotes}
+        setStrategyNotes={setStrategyNotes}
+      />
 
       <label className="flex flex-col gap-1 text-sm font-medium text-jwan-ink">
         {t('report.whatHappened')} *
@@ -185,6 +198,7 @@ export function ReportForm({
           onChange={(e) => setWhatHappened(e.target.value)}
           rows={4}
           className="rounded-lg border border-slate-200 px-3 py-2"
+          placeholder={t('report.whatHappenedHint')}
         />
       </label>
 
@@ -193,25 +207,6 @@ export function ReportForm({
         <textarea
           value={jwanResponse}
           onChange={(e) => setJwanResponse(e.target.value)}
-          rows={2}
-          className="rounded-lg border border-slate-200 px-3 py-2"
-        />
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm font-medium text-jwan-ink">
-        {t('report.mood')}
-        <input
-          value={mood}
-          onChange={(e) => setMood(e.target.value)}
-          className="rounded-lg border border-slate-200 px-3 py-2"
-        />
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm font-medium text-jwan-ink">
-        {t('report.strategies')}
-        <textarea
-          value={strategies}
-          onChange={(e) => setStrategies(e.target.value)}
           rows={2}
           className="rounded-lg border border-slate-200 px-3 py-2"
         />
