@@ -102,6 +102,7 @@ export function ReportList({
       {editing ? (
         <div className="rounded-xl border-2 border-jwan-teal/40 bg-teal-50/50 p-4">
           <ReportForm
+            key={editing.id}
             report={editing}
             addReport={addReport}
             updateReport={updateReport}

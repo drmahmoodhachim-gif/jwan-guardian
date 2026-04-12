@@ -12,6 +12,7 @@ import {
 } from 'recharts'
 import type { Report, ReportDomain, Role } from '../../types'
 import { DOMAINS } from '../../lib/constants'
+import { reportObservationIso } from '../../lib/observationTime'
 import { filterReports } from '../../hooks/useReports'
 import { Card } from '../ui/Card'
 
@@ -59,7 +60,7 @@ export function ProgressCharts({ reports }: { reports: Report[] }) {
     const filtered = filterReports(reports, roleFilter, domainFilter).filter((r) => r.rating != null)
     const byMonth = new Map<string, Report[]>()
     for (const r of filtered) {
-      const k = monthKey(new Date(r.created_at))
+      const k = monthKey(new Date(reportObservationIso(r)))
       if (!byMonth.has(k)) byMonth.set(k, [])
       byMonth.get(k)!.push(r)
     }

@@ -32,6 +32,8 @@ export interface Report {
   jwan_response: string | null
   mood: string | null
   strategies_used: string | null
+  /** When the observation happened (user can set in form; defaults to now). */
+  observed_at?: string | null
   created_at: string
   updated_at: string
 }
@@ -46,12 +48,21 @@ export type ReportInsert = {
   jwan_response: string | null
   mood: string | null
   strategies_used: string | null
+  observed_at: string
 }
 
 export type ReportUpdate = Partial<
   Pick<
     Report,
-    'role' | 'domain' | 'rating' | 'context' | 'what_happened' | 'jwan_response' | 'mood' | 'strategies_used'
+    | 'role'
+    | 'domain'
+    | 'rating'
+    | 'context'
+    | 'what_happened'
+    | 'jwan_response'
+    | 'mood'
+    | 'strategies_used'
+    | 'observed_at'
   >
 >
 

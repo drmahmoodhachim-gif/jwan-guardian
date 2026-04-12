@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { reportObservationIso } from '../lib/observationTime'
 import type { Report, ReportDomain, ReportInsert, ReportUpdate } from '../types'
 import { DOMAINS } from '../lib/constants'
 
@@ -9,10 +10,7 @@ export function useReports() {
   const [error, setError] = useState<string | null>(null)
 
   const fetchReports = useCallback(async () => {
-    const { data, error: qError } = await supabase
-      .from('reports')
-      .select('*')
-      .order('created_at', { ascending: false })
+    const { data, error: qError } = await supabase.from('reports').select('*')
 
     if (qError) {
       setError(qError.message)
@@ -20,7 +18,11 @@ export function useReports() {
       return
     }
     setError(null)
-    setReports((data ?? []) as Report[])
+    const rows = [...((data ?? []) as Report[])].sort(
+      (a, b) =>
+        new Date(reportObservationIso(b)).getTime() - new Date(reportObservationIso(a)).getTime(),
+    )
+    setReports(rows)
     setLoading(false)
   }, [])
 

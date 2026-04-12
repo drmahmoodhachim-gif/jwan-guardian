@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { Report } from '../../types'
 import { DOMAINS } from '../../lib/constants'
+import { reportObservationIso } from '../../lib/observationTime'
 import { Card } from '../ui/Card'
 
 function domainLabel(domain: string, ar: boolean) {
@@ -40,7 +41,7 @@ export function ActivityFeed({
                   <span className="font-medium text-jwan-ink">{who}</span>
                   <span>
                     {domainLabel(r.domain, ar)} ·{' '}
-                    {new Date(r.created_at).toLocaleString(ar ? 'ar-AE' : 'en-GB', {
+                    {new Date(reportObservationIso(r)).toLocaleString(ar ? 'ar-AE' : 'en-GB', {
                       dateStyle: 'medium',
                       timeStyle: 'short',
                     })}

@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Clock } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 import { DOMAINS } from '../../lib/constants'
+import {
+  formatForDatetimeLocal,
+  isoToDatetimeLocal,
+  parseDatetimeLocalToIso,
+} from '../../lib/observationTime'
 import type { Report, ReportDomain, Role } from '../../types'
 import { StarRating } from '../ui/StarRating'
 
@@ -33,8 +39,15 @@ export function ReportForm({
   const [jwanResponse, setJwanResponse] = useState(report?.jwan_response ?? '')
   const [mood, setMood] = useState(report?.mood ?? '')
   const [strategies, setStrategies] = useState(report?.strategies_used ?? '')
+  const [observedAtLocal, setObservedAtLocal] = useState(() =>
+    report ? isoToDatetimeLocal(report.observed_at ?? report.created_at) : formatForDatetimeLocal(new Date()),
+  )
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  function setNow() {
+    setObservedAtLocal(formatForDatetimeLocal(new Date()))
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -42,6 +55,7 @@ export function ReportForm({
       setError(t('report.mustLogin'))
       return
     }
+    const observedIso = parseDatetimeLocalToIso(observedAtLocal)
     setError(null)
     setPending(true)
     if (isEdit && report) {
@@ -54,6 +68,7 @@ export function ReportForm({
         jwan_response: jwanResponse.trim() || null,
         mood: mood.trim() || null,
         strategies_used: strategies.trim() || null,
+        observed_at: observedIso,
       })
       setPending(false)
       if (err) {
@@ -74,6 +89,7 @@ export function ReportForm({
       jwan_response: jwanResponse.trim() || null,
       mood: mood.trim() || null,
       strategies_used: strategies.trim() || null,
+      observed_at: observedIso,
     })
     setPending(false)
     if (err) {
@@ -86,11 +102,37 @@ export function ReportForm({
     setJwanResponse('')
     setMood('')
     setStrategies('')
+    setObservedAtLocal(formatForDatetimeLocal(new Date()))
     onSaved?.()
   }
 
   return (
     <form onSubmit={(e) => void onSubmit(e)} className="flex flex-col gap-4">
+      <div className="rounded-xl border border-teal-100 bg-teal-50/50 p-4">
+        <label className="flex flex-col gap-2 text-sm font-medium text-jwan-ink">
+          <span className="flex flex-wrap items-center gap-2">
+            {t('report.observedAt')}
+            <button
+              type="button"
+              onClick={setNow}
+              className="inline-flex items-center gap-1 rounded-full border border-jwan-teal/40 bg-white px-2.5 py-1 text-xs font-semibold text-jwan-teal hover:bg-teal-50"
+            >
+              <Clock className="h-3.5 w-3.5" aria-hidden />
+              {t('report.useNow')}
+            </button>
+          </span>
+          <input
+            type="datetime-local"
+            value={observedAtLocal}
+            onChange={(e) => setObservedAtLocal(e.target.value)}
+            className="rounded-lg border border-slate-200 px-3 py-2 font-mono text-base"
+            dir="ltr"
+            required
+          />
+        </label>
+        <p className="mt-2 text-xs text-jwan-gray">{t('report.observedAtHint')}</p>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <label className="flex flex-col gap-1 text-sm font-medium text-jwan-ink">
           {t('report.roleObserver')}

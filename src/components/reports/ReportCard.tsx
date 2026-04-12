@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pencil, Trash2 } from 'lucide-react'
-import type { Report } from '../../types'
+import type { Report, Role } from '../../types'
 import { DOMAINS } from '../../lib/constants'
-import type { Role } from '../../types'
+import { reportObservationIso } from '../../lib/observationTime'
+import { StarRating } from '../ui/StarRating'
 
 const ROLES: Role[] = ['dad', 'mom', 'teacher', 'therapist', 'doctor', 'jwan', 'admin']
-import { StarRating } from '../ui/StarRating'
 
 function domainLabel(domain: string, ar: boolean) {
   const d = DOMAINS.find((x) => x.id === domain)
@@ -40,8 +40,15 @@ export function ReportCard({
           <p className="text-xs text-jwan-gray">
             {ROLES.includes(report.role as Role) ? t(`role.${report.role as Role}`) : report.role} ·{' '}
             {domainLabel(report.domain, ar)} ·{' '}
-            {new Date(report.created_at).toLocaleString(ar ? 'ar-AE' : 'en-GB', {
+            {new Date(reportObservationIso(report)).toLocaleString(ar ? 'ar-AE' : 'en-GB', {
               dateStyle: 'medium',
+              timeStyle: 'short',
+            })}
+          </p>
+          <p className="mt-0.5 text-[11px] text-slate-400">
+            {t('report.savedAt')}{' '}
+            {new Date(report.created_at).toLocaleString(ar ? 'ar-AE' : 'en-GB', {
+              dateStyle: 'short',
               timeStyle: 'short',
             })}
           </p>
