@@ -532,17 +532,35 @@ export default defineConfig({
 
 ---
 
+## CLINICAL DATA MODULES (`src/data/`)
+
+Single source of truth for formal assessments, IQ snapshots, team alerts, and provider timeline:
+
+| File | Contents |
+|------|----------|
+| `assessments.ts` | `CLINICAL_ASSESSMENTS` (5 records: OpenMinds, AJCH, Carbone, Autism Clinic London, Mediclinic), `ASSESSMENT_HISTORY` (legacy slim rows), `JWAN_IQ_SNAPSHOTS` |
+| `clinicalAlerts.ts` | `CLINICAL_ALERTS` — CFT consistency + artistic talent (for Guide + team alignment) |
+| `providerTimeline.ts` | `PROVIDER_TIMELINE` — bilingual bullets for condensed care timeline |
+
+Re-exports: `src/lib/constants.ts` re-exports the above plus **`JWAN_ARTISTIC_TALENT`**, **`NEUROPEDIA_SUPPORT`**, **`SCHOOL_INCLUSION_OFFICER`**, **`CFT_APPROACH`**. **`JWAN_STRENGTHS`** includes the artistic-talent line (Nov 2024 documentation).
+
+**School year correction:** Giulia Maccarini’s report text said “Year 2” for Nov–Dec 2024 — **error**. Platform copy uses **Year 3** for that period; `noteOnSchoolYear` is stored on the London assessment record.
+
+**Diagnosis update (Jan 2025):** Dr Faniran (Mediclinic) documents **ASD Level 2 — substantial support** (upgrade from earlier mild/Level 1 framing). UI tone stays strengths-based while reflecting current clinical severity where relevant.
+
+---
+
 ## IMPORTANT CLINICAL NOTES FOR UI COPY
 
 All user-facing copy should reflect these facts accurately:
 
 - Jwan's full name: **Jwan Yaseen Al Mashhadani** — display as **Jwan** / **جوان**
 - Date of birth: **17 September 2016**
-- Diagnosis: **Autism Spectrum Disorder (Mild / High-Functioning)** confirmed **August 2021** at Al Jalila Children's Specialty Hospital, Dubai
+- Diagnosis: **ASD** confirmed **August 2021** (Al Jalila); **Level 2 (substantial support)** documented **January 2025** (Mediclinic — Dr Faniran). Earlier reports often described **mild** presentation — timeline-aware copy may note evolution.
 - Classification: **Twice Exceptional (2e)** — profound giftedness + ASD
-- FSIQ: **130** (Very Superior, 98th percentile), WPPSI-IV, Nov 2021
+- FSIQ: **130** (Very Superior, 98th percentile), WPPSI-IV, Nov 2021; **KBIT-2 composite 132** (Jan 2025) — stable high range across years
 - VCI: **140** (Very Superior, 99.6th percentile)
-- Current school: **Arcadia School, Dubai** (mainstream with LSA support)
+- Current school: **Arcadia School, Dubai** (mainstream; LSA support has varied — see timeline)
 - Parents: **Mahmood Al Mashhadani (Dad)** and **Rukia (Mom)**
 
 The platform tone must always be:

@@ -88,3 +88,31 @@ export interface Reminder {
   created_by: string | null
   created_at: string
 }
+
+export type CheckinMood =
+  | 'happy'
+  | 'calm'
+  | 'worried'
+  | 'frustrated'
+  | 'sad'
+  | 'excited'
+  | 'overwhelmed'
+
+export type ZoneColor = 'blue' | 'green' | 'yellow' | 'red'
+
+export interface Checkin {
+  id: string
+  mood: CheckinMood
+  mood_note: string | null
+  zone: ZoneColor | null
+  created_at: string
+}
+
+export interface Achievement {
+  id: string
+  text_en: string
+  text_ar: string | null
+  added_by: string | null
+  is_jwan_entry: boolean
+  created_at: string
+}

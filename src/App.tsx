@@ -7,7 +7,10 @@ import { Register } from './pages/Register'
 import { Onboarding } from './pages/Onboarding'
 import { DashboardHome } from './pages/DashboardHome'
 import { ReportsPage } from './pages/ReportsPage'
-import { SectionPlaceholder } from './pages/SectionPlaceholder'
+import { JwanPage } from './pages/JwanPage'
+import { BrainPage } from './pages/BrainPage'
+import { GuidePage } from './pages/GuidePage'
+import { RemindersPage } from './pages/RemindersPage'
 
 function RequireSession({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -58,10 +61,10 @@ export default function App() {
       >
         <Route index element={<DashboardHome />} />
         <Route path="reports" element={<ReportsPage />} />
-        <Route path="jwan" element={<SectionPlaceholder translationKey="nav.jwan" />} />
-        <Route path="brain" element={<SectionPlaceholder translationKey="nav.brain" />} />
-        <Route path="guide" element={<SectionPlaceholder translationKey="nav.guide" />} />
-        <Route path="reminders" element={<SectionPlaceholder translationKey="nav.reminders" />} />
+        <Route path="jwan" element={<JwanPage />} />
+        <Route path="brain" element={<BrainPage />} />
+        <Route path="guide" element={<GuidePage />} />
+        <Route path="reminders" element={<RemindersPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

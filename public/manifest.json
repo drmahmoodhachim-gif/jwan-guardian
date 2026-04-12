@@ -1,0 +1,18 @@
+{
+  "name": "Jwan's Guardian",
+  "short_name": "Jwan",
+  "description": "Care team platform for Jwan — reports, reminders, and Jwan's corner.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0d9488",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -9,12 +9,13 @@ import { Card } from '../components/ui/Card'
 import { DomainMatrix } from '../components/dashboard/DomainMatrix'
 import { ActivityFeed } from '../components/dashboard/ActivityFeed'
 import { PriorityCards } from '../components/dashboard/PriorityCards'
+import { AIInsights } from '../components/dashboard/AIInsights'
 
 export function DashboardHome() {
   const { t } = useTranslation()
   const { profile } = useAuth()
   const names = useProfileNames()
-  const { reminders, loading: remindersLoading } = useReminders()
+  const { reminders, loading: remindersLoading } = useReminders({ onlyActive: true })
   const { reports, loading, error, domainAverages } = useReports()
 
   return (
@@ -42,6 +43,8 @@ export function DashboardHome() {
         <DomainMatrix averages={domainAverages} />
         <p className="mt-4 text-center text-xs text-jwan-gray">{t('matrix.hint')}</p>
       </Card>
+
+      <AIInsights reports={reports} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <ActivityFeed reports={reports} names={names} />

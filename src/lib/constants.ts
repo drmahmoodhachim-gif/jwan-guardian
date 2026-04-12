@@ -11,32 +11,56 @@ export const DOMAINS = [
   { id: 'general', en: 'General', ar: 'عام', status: 'neutral', color: 'gray' },
 ] as const
 
-export const ASSESSMENT_HISTORY = [
-  {
-    date: '2021-06-01',
-    age: '4y10m',
-    source: 'OpenMinds — KABC-II + GARS-3 + BASC-3',
-    clinician: 'Carla Chedid',
-    keyFindings:
-      'KABC-II FCI=128 (97th pct). GARS-3 Autism Index=75 "Very Likely ASD", Severity Level 2. BASC-3 Adaptability T=36 (9th pct). Anxiety T=66 (93rd pct). Attention at-risk.',
-  },
-  {
-    date: '2022-01-12',
-    age: '5y2m',
-    source: "Al Jalila Children's Hospital — ADOS-2 + WPPSI-IV + NEPSY-II + Vineland-3",
-    clinician: 'Dr. Zeinab Alloub, Suha AlShuaibat, Marianne Diab',
-    keyFindings:
-      'FSIQ=130 (98th pct). VCI=140 (99.6th pct). FRI=133. PSI=103. ADOS-2: Mild ASD. Vineland Socialization (teacher) SS=57 (<1st pct). BRIEF-2 Emotion Reg teacher T=84. Theory of Mind 63rd pct intact. Diagnosis: Twice Exceptional child.',
-  },
-  {
-    date: '2023-03-02',
-    age: '6y5m',
-    source: 'Carbone Clinic Dubai — VB-MAPP Milestones + Barriers + Transition',
-    clinician: 'Levi Clancy BCBA',
-    keyFindings:
-      'VB-MAPP Total 169.5/170 — all language and social domains above 48-month developmental level. Transition Assessment 79/90. Primary barriers: behavioral problems, instructional control, sensory defensiveness. Mainstream schooling with LSA confirmed appropriate.',
-  },
-]
+export {
+  ASSESSMENT_HISTORY,
+  CLINICAL_ASSESSMENTS,
+  JWAN_IQ_SNAPSHOTS,
+} from '../data/assessments'
+export { CLINICAL_ALERTS } from '../data/clinicalAlerts'
+export { PROVIDER_TIMELINE } from '../data/providerTimeline'
+
+/** Documented Nov 2024 — Autism Clinic London (CFT consultation). */
+export const JWAN_ARTISTIC_TALENT = {
+  description: 'Creates her own comics and stories — exceptional artistic talent',
+  descriptionAr: 'تصنع قصصاً مصورة وقصصاً خاصة — موهبة فنية استثنائية',
+  documentedBy: 'Giulia Maccarini, Autism Clinic London, Nov 2024',
+  documentedByAr: 'غيوليا ماكاريني، عيادة لندن للتوحد، نوفمبر 2024',
+  therapeuticValue: 'Emotional expression, CFT, and social stories',
+  therapeuticValueAr: 'التعبير العاطفي والعلاج بالتعاطف والقصص الاجتماعية',
+} as const
+
+export const NEUROPEDIA_SUPPORT = {
+  provider: 'Neuropedia',
+  type: 'Behavioural consultations — in-clinic + home-based',
+  typeAr: 'استشارات سلوكية — في العيادة والمنزل',
+  startDate: 'Late 2024 (approximate)',
+  status: 'Active' as const,
+} as const
+
+export const SCHOOL_INCLUSION_OFFICER = {
+  name: 'Ms Kate Wharry',
+  role: 'Inclusion Officer, Arcadia School',
+  roleAr: 'مسؤولة الإدماج، مدرسة أركاديا',
+  engaged: 'November 2024',
+} as const
+
+export const CFT_APPROACH = {
+  therapist: 'Giulia Maccarini',
+  startDate: '2024-11-26',
+  framework: 'Compassion-Focused Therapy (CFT)',
+  frameworkAr: 'العلاج القائم على التعاطف',
+  evidenceNote: 'Mazefsky (2015) — emotion regulation and distress in ASD (context for families)',
+  keyTools: [
+    'Emotion cards',
+    'Social stories from real situations',
+    'Wave/cloud metaphors for emotions',
+    'Named emotion characters (e.g. “Angry Al”, “Excited Ellie”)',
+    '5-4-3-2-1 grounding',
+    'Compassionate friend object',
+    'Safe space visualisation',
+    'Kindness jar',
+  ],
+} as const
 
 export const JWAN_STRENGTHS = [
   { en: 'Verbal comprehension VCI=140 — top 0.4% of all children', ar: 'الفهم اللفظي VCI=140 — أفضل 0.4% من جميع الأطفال' },
@@ -45,4 +69,8 @@ export const JWAN_STRENGTHS = [
   { en: 'Affect recognition NEPSY-II=84th percentile — above expected', ar: 'التعرف على المشاعر — فوق المستوى المتوقع' },
   { en: 'Theory of Mind NEPSY-II=63rd percentile — intact', ar: 'نظرية العقل — سليمة' },
   { en: 'VB-MAPP language score 169.5/170 — all domains maxed', ar: 'درجة اللغة VB-MAPP 169.5/170 — جميع المجالات' },
+  {
+    en: `${JWAN_ARTISTIC_TALENT.description} (${JWAN_ARTISTIC_TALENT.documentedBy})`,
+    ar: `${JWAN_ARTISTIC_TALENT.descriptionAr} (${JWAN_ARTISTIC_TALENT.documentedByAr})`,
+  },
 ]
