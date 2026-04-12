@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-jwan-teal: #0d9488;
+  --color-jwan-teal-muted: #ccfbf1;
+  --color-jwan-amber: #d97706;
+  --color-jwan-amber-muted: #fef3c7;
+  --color-jwan-coral: #f43f5e;
+  --color-jwan-coral-muted: #ffe4e6;
+  --color-jwan-gray: #64748b;
+  --color-jwan-surface: #f8fafc;
+  --color-jwan-ink: #0f172a;
+
+  --font-sans: 'Segoe UI', system-ui, 'Noto Sans Arabic', Tahoma, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--color-jwan-surface);
+  color: var(--color-jwan-ink);
+}
+
+#root {
+  min-height: 100dvh;
+}
