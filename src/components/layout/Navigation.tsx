@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../hooks/useAuth'
 import {
   LayoutDashboard,
   FileText,
@@ -28,6 +29,8 @@ const links = [
 
 export function Navigation() {
   const { t } = useTranslation()
+  const { profile } = useAuth()
+  const visibleLinks = profile?.role === 'jwan' ? links.filter((l) => l.to === '/jwan') : links
 
   return (
     <nav
@@ -35,7 +38,7 @@ export function Navigation() {
       aria-label="Main"
     >
       <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-1 md:justify-start md:gap-2">
-        {links.map(({ to, key, icon: Icon }) => (
+        {visibleLinks.map(({ to, key, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}

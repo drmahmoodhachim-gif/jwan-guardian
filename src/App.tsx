@@ -16,6 +16,12 @@ import { CareTeamProtocols } from './pages/CareTeamProtocols'
 import { AIAssessment } from './pages/AIAssessment'
 import { WeeklyObjectives } from './pages/WeeklyObjectives'
 
+function HomeRoute() {
+  const { profile } = useAuth()
+  if (profile?.role === 'jwan') return <Navigate to="/jwan" replace />
+  return <DashboardHome />
+}
+
 function RequireSession({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
   const location = useLocation()
@@ -43,6 +49,17 @@ function RequireProfile({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
+function RequireCareTeam({ children }: { children: React.ReactNode }) {
+  const { profile, loading } = useAuth()
+  if (loading) {
+    return <LoadingSpinner />
+  }
+  if (profile?.role === 'jwan') {
+    return <Navigate to="/jwan" replace />
+  }
+  return <>{children}</>
+}
+
 export default function App() {
   return (
     <Routes>
@@ -63,16 +80,72 @@ export default function App() {
           </RequireProfile>
         }
       >
-        <Route index element={<DashboardHome />} />
-        <Route path="reports" element={<ReportsPage />} />
+        <Route index element={<HomeRoute />} />
+        <Route
+          path="reports"
+          element={
+            <RequireCareTeam>
+              <ReportsPage />
+            </RequireCareTeam>
+          }
+        />
         <Route path="jwan" element={<JwanPage />} />
-        <Route path="brain" element={<BrainPage />} />
-        <Route path="guide" element={<GuidePage />} />
-        <Route path="reminders" element={<RemindersPage />} />
-        <Route path="ot" element={<OTReports />} />
-        <Route path="protocols" element={<CareTeamProtocols />} />
-        <Route path="discovery" element={<AIAssessment />} />
-        <Route path="weekly" element={<WeeklyObjectives />} />
+        <Route
+          path="brain"
+          element={
+            <RequireCareTeam>
+              <BrainPage />
+            </RequireCareTeam>
+          }
+        />
+        <Route
+          path="guide"
+          element={
+            <RequireCareTeam>
+              <GuidePage />
+            </RequireCareTeam>
+          }
+        />
+        <Route
+          path="reminders"
+          element={
+            <RequireCareTeam>
+              <RemindersPage />
+            </RequireCareTeam>
+          }
+        />
+        <Route
+          path="ot"
+          element={
+            <RequireCareTeam>
+              <OTReports />
+            </RequireCareTeam>
+          }
+        />
+        <Route
+          path="protocols"
+          element={
+            <RequireCareTeam>
+              <CareTeamProtocols />
+            </RequireCareTeam>
+          }
+        />
+        <Route
+          path="discovery"
+          element={
+            <RequireCareTeam>
+              <AIAssessment />
+            </RequireCareTeam>
+          }
+        />
+        <Route
+          path="weekly"
+          element={
+            <RequireCareTeam>
+              <WeeklyObjectives />
+            </RequireCareTeam>
+          }
+        />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
