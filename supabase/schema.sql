@@ -117,7 +117,68 @@ create policy "All authenticated can manage assessments" on ai_assessments for a
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
--- 8. seed default reminders
+-- 8. weekly home objectives (see migrations/weekly_home_objectives.sql)
+create table weekly_objectives (
+  id uuid primary key default gen_random_uuid(),
+  template_id text,
+  week_start date not null,
+  is_custom boolean default false,
+  category text not null check (category in ('zones','sensory','emotion','pda','social','ot','enrichment','family')),
+  title text not null,
+  description text,
+  source_reference text,
+  assigned_to text default 'all',
+  active_days integer[] default '{0,1,2,3,4}',
+  is_active boolean default true,
+  created_at timestamptz default now()
+);
+
+create unique index weekly_objectives_template_week_unique on weekly_objectives (template_id, week_start) where template_id is not null;
+
+create table weekly_completions (
+  id uuid primary key default gen_random_uuid(),
+  objective_id uuid references weekly_objectives(id) on delete cascade,
+  completion_date date not null,
+  status text not null check (status in ('done','partial','skip','none')),
+  notes text,
+  logged_by uuid references profiles(id),
+  created_at timestamptz default now(),
+  unique(objective_id, completion_date)
+);
+
+create table jwan_goals (
+  id uuid primary key default gen_random_uuid(),
+  goal_text text not null,
+  is_done boolean default false,
+  week_start date not null,
+  created_at timestamptz default now()
+);
+
+create table sensory_log (
+  id uuid primary key default gen_random_uuid(),
+  session_type text not null check (session_type in ('morning','midday','afternoon')),
+  log_date date not null,
+  completed boolean default false,
+  logged_by uuid references profiles(id),
+  created_at timestamptz default now(),
+  unique(session_type, log_date)
+);
+
+alter table weekly_objectives enable row level security;
+alter table weekly_completions enable row level security;
+alter table jwan_goals enable row level security;
+alter table sensory_log enable row level security;
+
+create policy "All authenticated can manage objectives" on weekly_objectives for all
+  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "All authenticated can manage completions" on weekly_completions for all
+  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "All authenticated can manage jwan goals" on jwan_goals for all
+  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "All authenticated can manage sensory log" on sensory_log for all
+  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
+-- 9. seed default reminders
 insert into reminders (text_en, text_ar, frequency, assigned_to) values
 ('Daily check-in with Jwan — how was her day?', 'تسجيل يومي مع جوان — كيف كان يومها؟', 'daily', 'all'),
 ('Log one team observation in reports', 'تسجيل ملاحظة فريق واحدة', 'weekly', 'all'),

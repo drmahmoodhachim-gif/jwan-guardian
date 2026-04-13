@@ -14,6 +14,7 @@ import { RemindersPage } from './pages/RemindersPage'
 import { OTReports } from './pages/OTReports'
 import { CareTeamProtocols } from './pages/CareTeamProtocols'
 import { AIAssessment } from './pages/AIAssessment'
+import { WeeklyObjectives } from './pages/WeeklyObjectives'
 
 function RequireSession({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -71,6 +72,7 @@ export default function App() {
         <Route path="ot" element={<OTReports />} />
         <Route path="protocols" element={<CareTeamProtocols />} />
         <Route path="discovery" element={<AIAssessment />} />
+        <Route path="weekly" element={<WeeklyObjectives />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

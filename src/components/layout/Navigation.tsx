@@ -10,11 +10,13 @@ import {
   Activity,
   Users,
   Compass,
+  Flame,
 } from 'lucide-react'
 
 const links = [
   { to: '/', key: 'nav.dashboard', icon: LayoutDashboard },
   { to: '/reports', key: 'nav.reports', icon: FileText },
+  { to: '/weekly', key: 'nav.weekly', icon: Flame },
   { to: '/discovery', key: 'nav.discovery', icon: Compass },
   { to: '/protocols', key: 'nav.protocols', icon: Users },
   { to: '/ot', key: 'nav.ot', icon: Activity },
