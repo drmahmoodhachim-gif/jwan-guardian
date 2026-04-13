@@ -13,6 +13,7 @@ import { GuidePage } from './pages/GuidePage'
 import { RemindersPage } from './pages/RemindersPage'
 import { OTReports } from './pages/OTReports'
 import { CareTeamProtocols } from './pages/CareTeamProtocols'
+import { AIAssessment } from './pages/AIAssessment'
 
 function RequireSession({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -69,6 +70,7 @@ export default function App() {
         <Route path="reminders" element={<RemindersPage />} />
         <Route path="ot" element={<OTReports />} />
         <Route path="protocols" element={<CareTeamProtocols />} />
+        <Route path="discovery" element={<AIAssessment />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -97,7 +97,27 @@ alter table skill_ratings enable row level security;
 create policy "All authenticated can read skill_ratings" on skill_ratings for select using (auth.role() = 'authenticated');
 create policy "All authenticated can insert skill_ratings" on skill_ratings for insert with check (auth.role() = 'authenticated');
 
--- 7. seed default reminders
+-- 7. ai_assessments (ecological tasks — see migrations/ai_assessments.sql for idempotent variant)
+create table ai_assessments (
+  id uuid primary key default gen_random_uuid(),
+  task_type text not null check (task_type in ('emo_detective','memory_spark','story_mind','my_world')),
+  score integer,
+  max_span integer,
+  accuracy_pct integer,
+  domain_scores jsonb,
+  raw_responses jsonb,
+  world_ratings jsonb,
+  world_demand_avg real,
+  world_safety_avg real,
+  session_date timestamptz default now()
+);
+
+alter table ai_assessments enable row level security;
+create policy "All authenticated can manage assessments" on ai_assessments for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- 8. seed default reminders
 insert into reminders (text_en, text_ar, frequency, assigned_to) values
 ('Daily check-in with Jwan — how was her day?', 'تسجيل يومي مع جوان — كيف كان يومها؟', 'daily', 'all'),
 ('Log one team observation in reports', 'تسجيل ملاحظة فريق واحدة', 'weekly', 'all'),
