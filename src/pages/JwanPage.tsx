@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BookFinder } from '../components/jwan/BookUniverse/BookFinder'
 import { BookQuiz } from '../components/jwan/BookUniverse/BookQuiz'
 import { FactEngine } from '../components/jwan/BookUniverse/FactEngine'
@@ -12,18 +13,60 @@ import { MatildaHeader } from '../components/jwan/MatildaModule/MatildaHeader'
 import { MeetMatilda } from '../components/jwan/MatildaModule/MeetMatilda'
 import { TruthPanel } from '../components/jwan/MatildaModule/TruthPanel'
 import { useBraverySteps } from '../hooks/useBraverySteps'
+import { useJwanDayFeedback } from '../hooks/useJwanDayFeedback'
+import { anthropicComplete } from '../lib/anthropic'
+import { JWAN_STRENGTHS } from '../lib/constants'
 
-type TopTab = 'books' | 'matilda'
+type TopTab = 'books' | 'matilda' | 'myday' | 'mybrain'
 type BookTab = 'fact' | 'finder' | 'shelf' | 'quiz' | 'reading'
 type MatildaTab = 'meet' | 'steps' | 'ask' | 'journal' | 'badges'
 
 export function JwanPage() {
+  const { t } = useTranslation()
   const [topTab, setTopTab] = useState<TopTab>('books')
   const [bookTab, setBookTab] = useState<BookTab>('fact')
   const [matildaTab, setMatildaTab] = useState<MatildaTab>('meet')
   const [bookQuery, setBookQuery] = useState('')
   const [truthOpen, setTruthOpen] = useState(true)
   const { completedSteps, comfortLevel, markStep, logComfort } = useBraverySteps()
+  const { row, saveToday } = useJwanDayFeedback()
+  const [exerciseDone, setExerciseDone] = useState<Record<string, boolean>>({})
+  const [dayText, setDayText] = useState('')
+  const [savedNote, setSavedNote] = useState('')
+  const [savedSummary, setSavedSummary] = useState('')
+  const [savingDay, setSavingDay] = useState(false)
+
+  async function buildGentleSummary(note: string, exercises: Record<string, boolean>) {
+    const done = Object.keys(exercises).filter((k) => exercises[k]).length
+    try {
+      return await anthropicComplete({
+        system:
+          'Write short child-safe daily encouragement. 2 sentences max. Warm, concrete, no diagnosis, no judgment. Include one tiny next step.',
+        messages: [
+          {
+            role: 'user',
+            content: `Daily note: "${note || 'No note'}". Completed exercises count: ${done}.`,
+          },
+        ],
+        maxTokens: 140,
+      })
+    } catch {
+      if (done >= 3) return 'You did many strong steps today. Tiny next step: pick one favorite calm activity before bed.'
+      if (done >= 1) return 'You made progress today and that matters. Tiny next step: complete one more short exercise tomorrow.'
+      return 'Today can be a reset day, and that is okay. Tiny next step: try one small breathing round tomorrow.'
+    }
+  }
+
+  // Keep local page state aligned with the latest row from Supabase.
+  useEffect(() => {
+    if (!row) return
+    void Promise.resolve().then(() => {
+      setExerciseDone(row.exercises ?? {})
+      setDayText(row.note ?? '')
+      setSavedNote(row.note ?? '')
+      setSavedSummary(row.ai_summary ?? '')
+    })
+  }, [row])
 
   async function onStepAction(action: string, stepId: string) {
     await markStep(stepId)
@@ -47,6 +90,8 @@ export function JwanPage() {
         {[
           { id: 'books' as const, label: 'Book universe' },
           { id: 'matilda' as const, label: 'Matilda' },
+          { id: 'myday' as const, label: 'My day' },
+          { id: 'mybrain' as const, label: 'My brain' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -159,6 +204,123 @@ export function JwanPage() {
             <FeelingsJournal comfortLevel={comfortLevel} onSaved={() => void markStep('s6')} />
           ) : null}
           {matildaTab === 'badges' ? <BraveryBadges completedSteps={completedSteps} /> : null}
+        </div>
+      ) : null}
+
+      {topTab === 'myday' ? (
+        <div className="jwan-panel space-y-3">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-jwan-ink">My strengths</p>
+            <ul className="mt-2 space-y-2 text-sm text-jwan-gray">
+              {JWAN_STRENGTHS.map((s) => (
+                <li key={s.en} className="rounded-lg bg-teal-50/60 px-3 py-2 text-jwan-ink">
+                  {s.en}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-jwan-ink">Mini exercises</p>
+            <p className="mt-1 text-xs text-jwan-gray">Choose any exercise. No pressure - every step counts.</p>
+            <div className="mt-3 grid gap-2">
+              {[
+                '4 calm breaths',
+                'Read for 10 minutes',
+                'Write one happy sentence',
+                'Stretch for 2 minutes',
+              ].map((exercise) => (
+                <button
+                  key={exercise}
+                  type="button"
+                  onClick={() => {
+                    const next = { ...exerciseDone, [exercise]: !exerciseDone[exercise] }
+                    setExerciseDone(next)
+                  }}
+                  className={`rounded-lg border px-3 py-2 text-left text-sm ${
+                    exerciseDone[exercise]
+                      ? 'border-teal-400 bg-teal-50 text-teal-900'
+                      : 'border-slate-200 bg-white text-jwan-ink'
+                  }`}
+                >
+                  {exerciseDone[exercise] ? '✓ ' : ''} {exercise}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-jwan-ink">How was your day?</p>
+            <textarea
+              value={dayText}
+              onChange={(e) => setDayText(e.target.value)}
+              placeholder="Write one line about your day..."
+              className="mt-2 h-24 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                void (async () => {
+                  setSavingDay(true)
+                  const note = dayText.trim()
+                  const summary = await buildGentleSummary(note, exerciseDone)
+                  const { error } = await saveToday({
+                    note,
+                    exercises: exerciseDone,
+                    ai_summary: summary,
+                  })
+                  if (!error) {
+                    setSavedNote(note)
+                    setSavedSummary(summary)
+                  }
+                  setSavingDay(false)
+                })()
+              }}
+              disabled={savingDay}
+              className="mt-2 rounded-full bg-jwan-teal px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            >
+              {savingDay ? 'Saving...' : 'Save today&apos;s feedback'}
+            </button>
+            {savedNote ? (
+              <p className="mt-2 rounded-lg bg-teal-50 p-2 text-xs text-teal-900">
+                Saved note: {savedNote}
+              </p>
+            ) : null}
+            {savedSummary ? (
+              <p className="mt-2 rounded-lg border border-teal-200 bg-white p-2 text-xs text-jwan-ink">
+                Gentle AI summary: {savedSummary}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
+      {topTab === 'mybrain' ? (
+        <div className="jwan-panel space-y-3">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-jwan-ink">My brain</p>
+            <p className="mt-1 text-sm text-jwan-gray">{t('brain.ov.jwan')}</p>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-sm font-semibold text-jwan-ink">Social brain</p>
+              <p className="mt-1 text-sm text-jwan-gray">{t('brain.social.jwan')}</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-sm font-semibold text-jwan-ink">Feelings brain</p>
+              <p className="mt-1 text-sm text-jwan-gray">{t('brain.feel.jwan')}</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-sm font-semibold text-jwan-ink">Attention brain</p>
+              <p className="mt-1 text-sm text-jwan-gray">{t('brain.attn.jwan')}</p>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-jwan-ink">Body + movement</p>
+            <p className="mt-1 text-sm text-jwan-gray">{t('brain.motor.jwan')}</p>
+          </div>
         </div>
       ) : null}
       <div className="text-[11px] text-jwan-gray">
