@@ -11,6 +11,38 @@ Analyze the recent care team observations: identify 2-3 patterns, note what is w
 give 1 specific actionable recommendation for this week. 
 Be warm and evidence-based. Maximum 120 words.`
 
+function localReportInsights(reports: Report[]): string {
+  if (reports.length === 0) return 'No observations logged yet.'
+  const recent = reports.slice(0, 10)
+  const byDomain = new Map<string, number>()
+  let ratingSum = 0
+  let ratingCount = 0
+  for (const r of recent) {
+    byDomain.set(r.domain, (byDomain.get(r.domain) ?? 0) + 1)
+    if (typeof r.rating === 'number') {
+      ratingSum += r.rating
+      ratingCount++
+    }
+  }
+  const topDomains = [...byDomain.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([d]) => d)
+  const avg = ratingCount > 0 ? (ratingSum / ratingCount).toFixed(1) : 'n/a'
+  const latest = recent[0]
+  const latestLine = latest?.jwan_response
+    ? `Most recent note suggests: ${latest.jwan_response}`
+    : latest?.what_happened
+      ? `Most recent note: ${latest.what_happened.slice(0, 120)}${latest.what_happened.length > 120 ? '…' : ''}`
+      : 'Most recent note is available in reports.'
+  return [
+    `Local summary (AI fallback): recent pattern clusters are ${topDomains.join(' and ') || 'mixed domains'}, with average rating ${avg}.`,
+    'What is helping: continue structure before transitions and keep demands low while preserving choice.',
+    'Action for this week: pick one predictable daily check-in and one short regulation routine before high-demand tasks.',
+    latestLine,
+  ].join('\n\n')
+}
+
 function buildUserContext(reports: Report[]): string {
   const slice = reports.slice(0, 10)
   if (slice.length === 0) return 'No observations logged yet.'
@@ -46,7 +78,18 @@ export function AIInsights({ reports }: { reports: Report[] }) {
       })
       setOut(text)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Error')
+      const msg = e instanceof Error ? e.message : 'Error'
+      // Keep insights usable even when Anthropic key/network is unavailable in production.
+      if (
+        msg.includes('Missing VITE_ANTHROPIC_API_KEY') ||
+        msg.includes('Failed to fetch') ||
+        msg.includes('Anthropic API error')
+      ) {
+        setOut(localReportInsights(reports))
+        setError(null)
+      } else {
+        setError(msg)
+      }
     } finally {
       setLoading(false)
     }
