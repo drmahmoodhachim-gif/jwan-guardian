@@ -7,8 +7,9 @@ import { Achievements } from '../components/jwan/Achievements'
 import { BreathingTool } from '../components/jwan/BreathingTool'
 import { ZonesTracker } from '../components/jwan/ZonesTracker'
 import { SupportQuestions } from '../components/jwan/SupportQuestions'
+import { BookUniverseEmbed } from '../components/jwan/BookUniverseEmbed'
 
-type Tab = 'mood' | 'chat' | 'support' | 'powers' | 'wins' | 'breathe' | 'zones'
+type Tab = 'mood' | 'chat' | 'support' | 'books' | 'powers' | 'wins' | 'breathe' | 'zones'
 
 export function JwanPage() {
   const { t } = useTranslation()
@@ -18,6 +19,7 @@ export function JwanPage() {
     { id: 'mood', label: t('jwan.tab.mood') },
     { id: 'chat', label: t('jwan.tab.chat') },
     { id: 'support', label: t('jwan.tab.support') },
+    { id: 'books', label: t('jwan.tab.books') },
     { id: 'powers', label: t('jwan.tab.powers') },
     { id: 'wins', label: t('jwan.tab.wins') },
     { id: 'breathe', label: t('jwan.tab.breathe') },
@@ -58,6 +60,7 @@ export function JwanPage() {
         {tab === 'mood' ? <MoodCheckin /> : null}
         {tab === 'chat' ? <AIChat /> : null}
         {tab === 'support' ? <SupportQuestions /> : null}
+        {tab === 'books' ? <BookUniverseEmbed /> : null}
         {tab === 'powers' ? <Superpowers /> : null}
         {tab === 'wins' ? <Achievements /> : null}
         {tab === 'breathe' ? <BreathingTool /> : null}

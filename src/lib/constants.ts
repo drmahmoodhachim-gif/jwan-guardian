@@ -115,14 +115,14 @@ export const CFT_APPROACH = {
 } as const
 
 export const JWAN_STRENGTHS = [
-  { en: 'Verbal comprehension VCI=140 — top 0.4% of all children', ar: 'الفهم اللفظي VCI=140 — أفضل 0.4% من جميع الأطفال' },
-  { en: 'Learning and memory KABC=133 — 99th percentile', ar: 'التعلم والذاكرة KABC=133 — المئين الـ99' },
-  { en: 'Fluid reasoning FRI=133 — top 1%', ar: 'التفكير المرن FRI=133 — أفضل 1%' },
-  { en: 'Affect recognition NEPSY-II=84th percentile — above expected', ar: 'التعرف على المشاعر — فوق المستوى المتوقع' },
-  { en: 'Theory of Mind NEPSY-II=63rd percentile — intact', ar: 'نظرية العقل — سليمة' },
-  { en: 'VB-MAPP language score 169.5/170 — all domains maxed', ar: 'درجة اللغة VB-MAPP 169.5/170 — جميع المجالات' },
+  { en: 'You understand words and ideas amazingly fast.', ar: 'تفهمين الكلمات والأفكار بسرعة مدهشة.' },
+  { en: 'You remember what you learn and bring it back when you need it.', ar: 'تتذكرين ما تتعلمينه وتسترجعينه وقت الحاجة.' },
+  { en: 'You solve tricky puzzles and patterns like a detective.', ar: 'تحلين الألغاز والأنماط الصعبة مثل المحققة.' },
+  { en: 'You are very good at reading feelings from faces and situations.', ar: 'أنتِ ممتازة في قراءة المشاعر من الوجوه والمواقف.' },
+  { en: 'You can understand what other people might be thinking or feeling.', ar: 'تستطيعين فهم ما قد يفكر أو يشعر به الآخرون.' },
+  { en: 'Your language is super strong — speaking, reading, and expressing ideas.', ar: 'لغتك قوية جداً — في الكلام والقراءة والتعبير عن الأفكار.' },
   {
-    en: `${JWAN_ARTISTIC_TALENT.description} (${JWAN_ARTISTIC_TALENT.documentedBy})`,
-    ar: `${JWAN_ARTISTIC_TALENT.descriptionAr} (${JWAN_ARTISTIC_TALENT.documentedByAr})`,
+    en: 'You create your own comics and stories with a powerful imagination.',
+    ar: 'تصنعين قصصاً مصورة وحكاياتك الخاصة بخيال قوي جداً.',
   },
 ]

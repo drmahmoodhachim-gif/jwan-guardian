@@ -316,7 +316,7 @@
   "jwan.chatQuick.proud": "I did something I'm really proud of!",
   "jwan.chatQuick.conversation": "I don't know how to start a conversation",
   "jwan.chatQuick.angry": "Something made me really angry",
-  "jwan.powersIntro": "Science-backed strengths from your assessments — your brain has remarkable tools.",
+  "jwan.powersIntro": "These are your amazing strengths in everyday words — your brain has incredible tools.",
   "jwan.achievements": "Log a win",
   "jwan.achievementsIntro": "Big or small — celebrate progress. Team members can add wins too.",
   "jwan.achievementsList": "Wins list",
@@ -589,5 +589,9 @@
   "jwan.support.local.low": "Today looks steadier. Keep rhythm and offer choices to stay regulated.",
   "jwan.support.local.top": "The strongest signals are around questions {{a}} and {{b}}.",
   "jwan.support.local.actions": "Best next steps: offer 2 choices, give transition warnings, and start with a short regulation break.",
-  "jwan.support.local.note": "Extra note:"
+  "jwan.support.local.note": "Extra note:",
+  "jwan.tab.books": "Book universe",
+  "jwan.booksTitle": "Jwan Book Universe",
+  "jwan.booksIntro": "Explore facts, books, quizzes, and your reading tracker.",
+  "jwan.booksOpenNew": "Open full screen"
 }

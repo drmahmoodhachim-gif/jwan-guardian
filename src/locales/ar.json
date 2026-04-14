@@ -316,7 +316,7 @@
   "jwan.chatQuick.proud": "فعلتُ شيئاً أفخر به!",
   "jwan.chatQuick.conversation": "لا أعرف كيف أبدأ محادثة",
   "jwan.chatQuick.angry": "شيء جعلني غاضبة جداً",
-  "jwan.powersIntro": "نقاط قوى مبنية على التقييمات — دماغكِ لديه أدوات رائعة.",
+  "jwan.powersIntro": "هذه نقاط قوتك بكلمات بسيطة — دماغك مليء بأدوات رائعة.",
   "jwan.achievements": "سجّلي إنجازاً",
   "jwan.achievementsIntro": "كبيراً أو صغيراً — احتفلي بالتقدم. يمكن للفريق الإضافة أيضاً.",
   "jwan.achievementsList": "قائمة الإنجازات",
@@ -589,5 +589,9 @@
   "jwan.support.local.low": "اليوم يبدو أكثر استقراراً. نحافظ على الروتين ونقدم خيارات للاستمرار بهدوء.",
   "jwan.support.local.top": "أقوى الإشارات كانت في السؤالين {{a}} و{{b}}.",
   "jwan.support.local.actions": "الخطوات الأفضل الآن: خياران، تنبيه قبل الانتقال، وبداية باستراحة تنظيم قصيرة.",
-  "jwan.support.local.note": "ملاحظة إضافية:"
+  "jwan.support.local.note": "ملاحظة إضافية:",
+  "jwan.tab.books": "عالم الكتب",
+  "jwan.booksTitle": "عالم كتب جوان",
+  "jwan.booksIntro": "استكشفي الحقائق والكتب والاختبارات وسجل القراءة.",
+  "jwan.booksOpenNew": "فتح بملء الشاشة"
 }
