@@ -35,7 +35,7 @@ export function Header() {
   const showClinicalSubtitle = profile?.role !== 'jwan'
 
   return (
-    <header className="border-b border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm backdrop-blur md:px-6">
+    <header className="jwan-header border-b border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm backdrop-blur md:px-6">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
         <div className="flex min-w-0 flex-1 items-center gap-3">
           <div
@@ -75,7 +75,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-jwan-teal-muted text-sm font-bold text-jwan-teal ring-2 ring-white hover:bg-teal-100"
+              className="jwan-avatar-btn flex h-10 w-10 items-center justify-center rounded-full bg-jwan-teal-muted text-sm font-bold text-jwan-teal ring-2 ring-white hover:bg-teal-100"
               aria-expanded={menuOpen}
               aria-haspopup="menu"
             >

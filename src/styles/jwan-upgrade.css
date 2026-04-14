@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --ju-teal: #0d9488;
+  --ju-teal-2: #14b8a6;
+  --ju-teal-muted: #ccfbf1;
+  --ju-teal-soft: #f0fdf9;
+  --ju-ink: #0f172a;
+  --ju-gray: #475569;
+}
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f0fdf9 0%, #f8fafc 50%, #fef9f0 100%);
+}
+
+.jwan-header {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: rgba(13, 148, 136, 0.12) !important;
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.1);
+}
+
+.jwan-avatar-btn {
+  background: linear-gradient(135deg, var(--ju-teal), var(--ju-teal-2)) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.28);
+}
+
+.jwan-page {
+  background: linear-gradient(135deg, #f0fdf9 0%, #f8fafc 50%, #fef9f0 100%);
+}
+
+.jwan-page .jwan-hello {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  background: linear-gradient(135deg, var(--ju-teal), var(--ju-ink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.jwan-page .jwan-greeting-card {
+  background: linear-gradient(135deg, rgba(204, 251, 241, 0.4), transparent);
+  border-radius: 20px;
+  border: 1px solid rgba(13, 148, 136, 0.15);
+}
+
+.jwan-page .jwan-tab-btn {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.jwan-page .jwan-tab-btn.is-active {
+  background: linear-gradient(135deg, var(--ju-teal), var(--ju-teal-2));
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(13, 148, 136, 0.22);
+  transform: translateY(-1px);
+}
+
+.jwan-page .jwan-tab-btn:not(.is-active):hover {
+  border-color: rgba(13, 148, 136, 0.4);
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.jwan-page .jwan-panel {
+  animation: fadeSlideIn 0.3s ease;
+}
+
+.jwan-page .rounded-2xl.border,
+.jwan-page .rounded-xl.border {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(13, 148, 136, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jwan-page .rounded-2xl.border:hover,
+.jwan-page .rounded-xl.border:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(13, 148, 136, 0.14);
+}
+
+.jwan-page .jwan-panel > .rounded-2xl.border:first-child,
+.jwan-page .jwan-panel > .rounded-xl.border:first-child {
+  border-top: 3px solid var(--ju-teal);
+}
+
+.jwan-page input,
+.jwan-page textarea,
+.jwan-page select {
+  background: rgba(240, 253, 249, 0.4);
+}
+
+.jwan-page input:focus,
+.jwan-page textarea:focus,
+.jwan-page select:focus {
+  outline: none;
+  border-color: var(--ju-teal) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.16);
+}
+
+.jwan-page button[class*='rounded-full'][class*='bg-jwan-teal'],
+.jwan-page button[class*='rounded-lg'][class*='bg-jwan-teal'] {
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--ju-teal), var(--ju-teal-2)) !important;
+  box-shadow: 0 8px 18px rgba(13, 148, 136, 0.2);
+}
+
+.jwan-page button[class*='rounded-full'][class*='bg-jwan-teal']:hover,
+.jwan-page button[class*='rounded-lg'][class*='bg-jwan-teal']:hover {
+  box-shadow: 0 10px 22px rgba(13, 148, 136, 0.3);
+}
+
+.jwan-page button[class*='w-16'] > div {
+  border-radius: 16px;
+  border: 2px solid rgba(13, 148, 136, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jwan-page button[class*='w-16']:hover > div {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 5px rgba(20, 184, 166, 0.14);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(13, 148, 136, 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(13, 148, 136, 0.3);
+  border-radius: 999px;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
