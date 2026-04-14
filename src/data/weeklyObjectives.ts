@@ -25,6 +25,24 @@ export interface ObjectiveTemplate {
 
 export const OBJECTIVE_TEMPLATES: ObjectiveTemplate[] = [
   {
+    id: 't00',
+    category: 'emotion',
+    title: 'Mistake practice routine (5 min daily)',
+    titleAr: 'روتين تدريب الأخطاء (5 دقائق يومياً)',
+    description:
+      'During a calm moment, practice 2-3 tiny safe mistakes (drop pencil, miss target), then say "mistakes help me learn" and do 3 deep breaths.',
+    descriptionAr:
+      'خلال لحظة هادئة، نتدرب على 2-3 أخطاء صغيرة وآمنة (إسقاط قلم، عدم إصابة الهدف)، ثم نقول "الأخطاء تساعدني على التعلم" ونأخذ 3 أنفاس عميقة.',
+    source: "This week's recommendation — tolerance for imperfection training",
+    assignedTo: 'all',
+    activeDays: [0, 1, 2, 3, 4, 5, 6],
+    pdaNote:
+      'Frame it as a brave game, not correction. No pressure and no scoring; just practice recovery.',
+    clinicalBasis:
+      'Builds tolerance for imperfection in low-stakes moments, improving emotional recovery before high-stakes situations.',
+    defaultActive: true,
+  },
+  {
     id: 't01',
     category: 'zones',
     title: 'Morning zones check-in',
