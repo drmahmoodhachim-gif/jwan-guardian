@@ -80,6 +80,7 @@ export default function App() {
           </RequireProfile>
         }
       >
+        <Route path="j" element={<Navigate to="/jwan" replace />} />
         <Route index element={<HomeRoute />} />
         <Route
           path="reports"
