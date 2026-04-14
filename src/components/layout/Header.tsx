@@ -59,6 +59,14 @@ export function Header() {
             <Globe className="h-4 w-4 text-jwan-teal" aria-hidden />
             {language === 'en' ? 'عربي' : 'English'}
           </button>
+          <button
+            type="button"
+            onClick={() => void signOut()}
+            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-jwan-ink shadow-sm hover:bg-slate-50"
+          >
+            <LogOut className="h-4 w-4 text-jwan-teal" aria-hidden />
+            {t('auth.logout')}
+          </button>
 
           <div className="relative" ref={menuRef}>
             <button
