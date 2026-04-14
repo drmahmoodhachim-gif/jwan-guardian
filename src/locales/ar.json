@@ -567,5 +567,8 @@
   "reminders.delete": "حذف",
   "reminders.confirmDelete": "حذف هذا التذكير نهائياً؟",
   "reminders.assign.all": "الجميع",
-  "reminders.assignLabel": "مسند"
+  "reminders.assignLabel": "مسند",
+  "auth.resend": "إعادة إرسال بريد التأكيد",
+  "auth.resendSent": "تم إرسال بريد التأكيد. يرجى فحص البريد الوارد/الرسائل غير المرغوبة.",
+  "auth.resendNeedEmail": "أدخلي البريد الإلكتروني أولاً ثم أعيدي الإرسال."
 }

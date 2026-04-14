@@ -567,5 +567,8 @@
   "reminders.delete": "Delete",
   "reminders.confirmDelete": "Delete this reminder permanently?",
   "reminders.assign.all": "Everyone",
-  "reminders.assignLabel": "Assigned"
+  "reminders.assignLabel": "Assigned",
+  "auth.resend": "Resend confirmation email",
+  "auth.resendSent": "Confirmation email sent. Please check inbox/spam.",
+  "auth.resendNeedEmail": "Enter your email first, then tap resend."
 }

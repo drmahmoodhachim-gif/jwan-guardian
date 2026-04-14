@@ -15,7 +15,9 @@ export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [info, setInfo] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
+  const [resending, setResending] = useState(false)
 
   if (loading) {
     return <LoadingSpinner label={t('common.loading')} />
@@ -30,6 +32,7 @@ export function Login() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
+    setInfo(null)
     setPending(true)
     const { error: err } = await supabase.auth.signInWithPassword({ email, password })
     setPending(false)
@@ -38,6 +41,29 @@ export function Login() {
       return
     }
     navigate(from, { replace: true })
+  }
+
+  async function resendConfirmation() {
+    setError(null)
+    setInfo(null)
+    if (!email.trim()) {
+      setError(t('auth.resendNeedEmail'))
+      return
+    }
+    setResending(true)
+    const { error: err } = await supabase.auth.resend({
+      type: 'signup',
+      email: email.trim(),
+      options: {
+        emailRedirectTo: `${window.location.origin}/login`,
+      },
+    })
+    setResending(false)
+    if (err) {
+      setError(err.message)
+      return
+    }
+    setInfo(t('auth.resendSent'))
   }
 
   return (
@@ -74,12 +100,25 @@ export function Login() {
               {error}
             </p>
           ) : null}
+          {info ? (
+            <p className="rounded-lg bg-teal-50 px-3 py-2 text-sm text-teal-900" role="status">
+              {info}
+            </p>
+          ) : null}
           <button
             type="submit"
             disabled={pending}
             className="mt-2 rounded-xl bg-jwan-teal py-3 font-semibold text-white shadow hover:bg-teal-700 disabled:opacity-60"
           >
             {pending ? t('common.loading') : t('auth.login')}
+          </button>
+          <button
+            type="button"
+            onClick={() => void resendConfirmation()}
+            disabled={resending}
+            className="rounded-xl border border-slate-200 py-2.5 text-sm font-medium text-jwan-ink hover:bg-slate-50 disabled:opacity-60"
+          >
+            {resending ? t('common.loading') : t('auth.resend')}
           </button>
         </form>
 
