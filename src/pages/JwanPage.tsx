@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAge } from '../hooks/useAge'
 import { MoodCheckin } from '../components/jwan/MoodCheckin'
 import { AIChat } from '../components/jwan/AIChat'
 import { Superpowers } from '../components/jwan/Superpowers'
@@ -12,7 +11,6 @@ type Tab = 'mood' | 'chat' | 'powers' | 'wins' | 'breathe' | 'zones'
 
 export function JwanPage() {
   const { t } = useTranslation()
-  const age = useAge()
   const [tab, setTab] = useState<Tab>('mood')
 
   const tabs: { id: Tab; label: string }[] = [
@@ -28,9 +26,6 @@ export function JwanPage() {
     <div className="flex flex-1 flex-col gap-6">
       <div>
         <h1 className="text-2xl font-semibold text-jwan-ink">{t('jwan.welcome')}</h1>
-        <p className="mt-1 text-sm text-jwan-gray">
-          {t('app.subtitle', { age: age.compact })}
-        </p>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-jwan-ink">{t('jwan.pageIntro')}</p>
       </div>
 

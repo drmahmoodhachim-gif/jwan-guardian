@@ -32,6 +32,7 @@ export function Header() {
       .toUpperCase() ?? '?'
 
   const subtitleAge = t('app.subtitle', { age: age.compact })
+  const showClinicalSubtitle = profile?.role !== 'jwan'
 
   return (
     <header className="border-b border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm backdrop-blur md:px-6">
@@ -46,7 +47,9 @@ export function Header() {
           </div>
           <div className="min-w-0 text-start">
             <h1 className="truncate text-lg font-semibold text-jwan-ink md:text-xl">{t('app.title')}</h1>
-            <p className="truncate text-xs text-jwan-gray md:text-sm">{subtitleAge}</p>
+            {showClinicalSubtitle ? (
+              <p className="truncate text-xs text-jwan-gray md:text-sm">{subtitleAge}</p>
+            ) : null}
           </div>
         </div>
 
